@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modDesc descVersion="64">
+    <title>Custom Media Player</title>
+    <description>
+        This mod adds an in-game media player to Farming Simulator 25. 
+        When activated via the custom radio channel, a small overlay will display
+        the current media playing from YouTube or Spotify. The player shows
+        song title, artist, and optionally album art or video. Fully optional
+        and unobtrusive to gameplay.
+    </description>
+    <author>Jessie Crider</author>
+    <version>1.0.0.0</version>
+    <iconFilename>icon.png</iconFilename>
+    <bannerFilename>banner.png</bannerFilename>
+    <dir>CustomMediaPlayer</dir>
+    <fs19_compatible>false</fs19_compatible>
+    <fs22_compatible>true</fs22_compatible>
+    <fs23_compatible>false</fs23_compatible>
+    <fs25_compatible>true</fs25_compatible>
+    <multiplayerCompatible>true</multiplayerCompatible>
+    <dependencies/>
+</modDesc>
