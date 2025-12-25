@@ -7,10 +7,10 @@ MediaWindow.isVisible = false
 
 -- FFA Theme Colors (RGBA)
 FFATheme = {
-    bgColor = {0.1, 0.1, 0.11, 1},
-    spotify = {0.11, 0.73, 0.33, 1},  -- Spotify green
-    cridergpt = {0.94, 0.65, 0.0, 1}, -- CriderGPT orange
-    closeBtn = {1, 0, 0, 1}           -- Red close button
+    bgColor    = {0.1, 0.1, 0.11, 1},
+    spotify    = {0.11, 0.73, 0.33, 1},  -- Spotify green
+    cridergpt  = {0.94, 0.65, 0.0, 1},   -- CriderGPT orange
+    closeBtn   = {1, 0, 0, 1}            -- Red close button
 }
 
 -- Initialize the UI
@@ -19,39 +19,64 @@ function MediaWindow:init()
     self.window = g_gui:loadGui("mediaUI.xml")
     self.window:setVisible(self.isVisible)
 
+    -- Apply FFA background color
+    local bg = self.window:find("MediaBackground")
+    if bg ~= nil then
+        bg:setColor(unpack(FFATheme.bgColor))
+    end
+
     -- Find elements
-    self.webView = self.window:find("MediaWebView")
-    self.spotifyBtn = self.window:find("SpotifyButton")
+    self.webView   = self.window:find("MediaWebView")
+    self.spotifyBtn= self.window:find("SpotifyButton")
     self.criderBtn = self.window:find("CriderGPTButton")
-    self.closeBtn = self.window:find("CloseButton")
+    self.closeBtn  = self.window:find("CloseButton")
 
     -- Set button actions
-    self.spotifyBtn.onClick = function()
-        self.webView:setUrl("https://open.spotify.com/")
+    if self.spotifyBtn ~= nil then
+        self.spotifyBtn.onClick = function()
+            if self.webView ~= nil then
+                self.webView:setUrl("https://open.spotify.com/")
+                self.spotifyBtn:setColor(unpack(FFATheme.spotify))
+            end
+        end
     end
 
-    self.criderBtn.onClick = function()
-        self.webView:setUrl("https://cridergpt.lovable.app/")
+    if self.criderBtn ~= nil then
+        self.criderBtn.onClick = function()
+            if self.webView ~= nil then
+                self.webView:setUrl("https://cridergpt.lovable.app/")
+                self.criderBtn:setColor(unpack(FFATheme.cridergpt))
+            end
+        end
     end
 
-    self.closeBtn.onClick = function()
-        self:setVisible(false)
+    if self.closeBtn ~= nil then
+        self.closeBtn.onClick = function()
+            self:setVisible(false)
+        end
+        self.closeBtn:setColor(unpack(FFATheme.closeBtn))
     end
 
     -- Start on Spotify by default
-    self.webView:setUrl("https://open.spotify.com/")
+    if self.webView ~= nil then
+        self.webView:setUrl("https://open.spotify.com/")
+    end
 end
 
 -- Toggle visibility of the media window
 function MediaWindow:toggle()
     self.isVisible = not self.isVisible
-    self.window:setVisible(self.isVisible)
+    if self.window ~= nil then
+        self.window:setVisible(self.isVisible)
+    end
 end
 
 -- Explicitly set visibility
 function MediaWindow:setVisible(state)
     self.isVisible = state
-    self.window:setVisible(state)
+    if self.window ~= nil then
+        self.window:setVisible(state)
+    end
 end
 
 -- Initialize media window when game loads
