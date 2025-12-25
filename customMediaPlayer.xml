@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Screen name="CustomMediaPlayer" controller="CustomMediaPlayerController">
+    <!-- Main overlay frame -->
+    <Frame name="MainFrame" width="400" height="120" x="50" y="50" color="#FF1A1A1A" alpha="0.85" cornerRadius="8">
+        
+        <!-- Title bar -->
+        <Frame name="TitleBar" width="100%" height="30" color="#FF0055FF" cornerRadius="6,6,0,0">
+            <Text name="TitleText" text="Media Player" fontSize="16" color="#FFFFFFFF" align="center"/>
+        </Frame>
+
+        <!-- Song info -->
+        <Text name="SongTitle" text="Song Title" fontSize="14" color="#FFFFFFFF" x="10" y="40" width="380" align="left"/>
+        <Text name="ArtistName" text="Artist Name" fontSize="12" color="#FFAAAAAA" x="10" y="60" width="380" align="left"/>
+
+        <!-- Album art / media icon -->
+        <Image name="MediaIcon" file="spotify.png" x="340" y="40" width="50" height="50"/>
+
+        <!-- Buttons -->
+        <Button name="CloseButton" text="X" x="370" y="0" width="30" height="30" color="#FFFF5555" fontSize="14"/>
+        <Button name="MinimizeButton" text="—" x="340" y="0" width="30" height="30" color="#FFFFFF55" fontSize="14"/>
+        
+    </Frame>
+</Screen>
