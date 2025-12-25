@@ -1,32 +1,65 @@
--- CustomMediaPlayer.lua
--- Starter mod for FS25: in-game media player
+-- FFA Themed Media Player Mod for FS25
+-- Author: Jessie Crider
+-- Plays Spotify Web and CriderGPT inside game
 
-CustomMediaPlayer = {}
-CustomMediaPlayer.MOD_NAME = "Custom Media Player"
+MediaWindow = {}
+MediaWindow.isVisible = false
 
--- Load mod when map loads
-function CustomMediaPlayer:loadMap(name)
-    print(self.MOD_NAME .. " loaded on map: " .. name)
+-- FFA Theme Colors (RGBA)
+FFATheme = {
+    bgColor = {0.1, 0.1, 0.11, 1},
+    spotify = {0.11, 0.73, 0.33, 1},  -- Spotify green
+    cridergpt = {0.94, 0.65, 0.0, 1}, -- CriderGPT orange
+    closeBtn = {1, 0, 0, 1}           -- Red close button
+}
+
+-- Initialize the UI
+function MediaWindow:init()
+    -- Load GUI layout
+    self.window = g_gui:loadGui("mediaUI.xml")
+    self.window:setVisible(self.isVisible)
+
+    -- Find elements
+    self.webView = self.window:find("MediaWebView")
+    self.spotifyBtn = self.window:find("SpotifyButton")
+    self.criderBtn = self.window:find("CriderGPTButton")
+    self.closeBtn = self.window:find("CloseButton")
+
+    -- Set button actions
+    self.spotifyBtn.onClick = function()
+        self.webView:setUrl("https://open.spotify.com/")
+    end
+
+    self.criderBtn.onClick = function()
+        self.webView:setUrl("https://cridergpt.lovable.app/")
+    end
+
+    self.closeBtn.onClick = function()
+        self:setVisible(false)
+    end
+
+    -- Start on Spotify by default
+    self.webView:setUrl("https://open.spotify.com/")
 end
 
--- Register event for radio change
-function CustomMediaPlayer:onUpdate(dt)
-    -- This is called every frame
-    -- Here you can check which radio channel is active
-    -- Example: if player switches to "Media Player" channel
-    -- Then display UI
+-- Toggle visibility of the media window
+function MediaWindow:toggle()
+    self.isVisible = not self.isVisible
+    self.window:setVisible(self.isVisible)
 end
 
--- Example function to show a small UI
-function CustomMediaPlayer:draw()
-    -- Display a small rectangle in top-left corner
-    if self.showUI then
-        setTextBold(true)
-        setTextColor(1, 1, 1, 1) -- white
-        renderText(0.01, 0.95, 0.02, "Media Player Active")
-        setTextBold(false)
+-- Explicitly set visibility
+function MediaWindow:setVisible(state)
+    self.isVisible = state
+    self.window:setVisible(state)
+end
+
+-- Initialize media window when game loads
+MediaWindow:init()
+
+-- Optional: bind to a key (example: F9)
+function onKeyDown(key)
+    if key == Input.KEY_F9 then
+        MediaWindow:toggle()
     end
 end
-
--- Register events
-addModEventListener(CustomMediaPlayer)
