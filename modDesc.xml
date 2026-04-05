@@ -1,23 +1,28 @@
-<?xml version="1.0" encoding="utf-8"?>
-<modDesc descVersion="90">
-    <title>Custom Media Player</title>
+<?xml version="1.0" encoding="UTF-8"?>
+<modDesc descVersion="110">
+    <title>FFA Media Player</title>
     <description>
-        This mod adds an in-game media player to Farming Simulator 25. 
-        When activated via the custom radio channel, a small overlay will display
-        the current media playing from Spotify or CriderGPT. The player shows
-        song title, artist, and optionally album art or video. Fully optional
-        and unobtrusive to gameplay. FFA-themed UI.
+        In-game media browser for Farming Simulator 25.
+        Open Spotify Web or CriderGPT directly inside the game.
+        Press F9 to toggle the window. Fully draggable, minimizable, and FFA-themed.
     </description>
     <author>Jessie Crider</author>
-    <version>1.0.0.0</version>
+    <version>1.1.0</version>
     <iconFilename>icon.png</iconFilename>
     <bannerFilename>banner.png</bannerFilename>
-    <dir>CustomMediaPlayer</dir>
+
     <fs19_compatible>false</fs19_compatible>
-    <fs22_compatible>true</fs22_compatible>
+    <fs22_compatible>false</fs22_compatible>
     <fs23_compatible>false</fs23_compatible>
     <fs25_compatible>true</fs25_compatible>
+
     <multiplayerCompatible>true</multiplayerCompatible>
-    <dependencies/>
-    <supportInformation>https://cridergpt.lovable.app/</supportInformation>
+
+    <scripts>
+        <script filename="CustomMediaPlayer.lua"/>
+    </scripts>
+
+    <l10n>
+        <text name="FFA_MEDIA_PLAYER_TITLE" text="FFA Media Player"/>
+    </l10n>
 </modDesc>
