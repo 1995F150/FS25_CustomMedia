@@ -1,23 +1,33 @@
 -- FFA Themed Media Player Mod for FS25
 -- Author: Jessie Crider
--- Plays Spotify Web and CriderGPT inside game
+-- Description: In-game window to browse Spotify Web and CriderGPT
 
 MediaWindow = {}
 MediaWindow.isVisible = false
 
 -- FFA Theme Colors (RGBA)
 FFATheme = {
-    bgColor    = {0.1, 0.1, 0.11, 1},
-    spotify    = {0.11, 0.73, 0.33, 1},  -- Spotify green
-    cridergpt  = {0.94, 0.65, 0.0, 1},   -- CriderGPT orange
-    closeBtn   = {1, 0, 0, 1}            -- Red close button
+    bgColor     = {0.1,  0.1,  0.11, 1.0},
+    spotify     = {0.11, 0.73, 0.33, 1.0},  -- Spotify green
+    cridergpt   = {0.94, 0.65, 0.00, 1.0},  -- CriderGPT orange
+    closeBtn    = {1.0,  0.0,  0.0,  1.0},  -- Red close button
+    textColor   = {1.0,  1.0,  1.0,  1.0}
 }
 
--- Initialize the UI
 function MediaWindow:init()
-    -- Load GUI layout
-    self.window = g_gui:loadGui("mediaUI.xml")
-    self.window:setVisible(self.isVisible)
+    if self.window ~= nil then
+        return -- Already initialized
+    end
+
+    -- Load the GUI layout (make sure mediaUI.xml is in the correct folder)
+    self.window = g_gui:loadGui("mediaUI.xml", "MediaWindow", self, true)
+
+    if self.window == nil then
+        print("Error: Could not load mediaUI.xml!")
+        return
+    end
+
+    self.window:setVisible(false)
 
     -- Apply FFA background color
     local bg = self.window:find("MediaBackground")
@@ -25,19 +35,21 @@ function MediaWindow:init()
         bg:setColor(unpack(FFATheme.bgColor))
     end
 
-    -- Find elements
-    self.webView   = self.window:find("MediaWebView")
-    self.spotifyBtn= self.window:find("SpotifyButton")
-    self.criderBtn = self.window:find("CriderGPTButton")
-    self.closeBtn  = self.window:find("CloseButton")
+    -- Find UI elements
+    self.webView     = self.window:find("MediaWebView")
+    self.spotifyBtn  = self.window:find("SpotifyButton")
+    self.criderBtn   = self.window:find("CriderGPTButton")
+    self.closeBtn    = self.window:find("CloseButton")
 
-    -- Set button actions
+    -- Button actions
     if self.spotifyBtn ~= nil then
         self.spotifyBtn.onClick = function()
             if self.webView ~= nil then
                 self.webView:setUrl("https://open.spotify.com/")
-                self.spotifyBtn:setColor(unpack(FFATheme.spotify))
             end
+            -- Optional: highlight active button
+            self.spotifyBtn:setColor(unpack(FFATheme.spotify))
+            if self.criderBtn then self.criderBtn:setColor(1,1,1,1) end
         end
     end
 
@@ -45,8 +57,9 @@ function MediaWindow:init()
         self.criderBtn.onClick = function()
             if self.webView ~= nil then
                 self.webView:setUrl("https://cridergpt.lovable.app/")
-                self.criderBtn:setColor(unpack(FFATheme.cridergpt))
             end
+            self.criderBtn:setColor(unpack(FFATheme.cridergpt))
+            if self.spotifyBtn then self.spotifyBtn:setColor(1,1,1,1) end
         end
     end
 
@@ -57,21 +70,19 @@ function MediaWindow:init()
         self.closeBtn:setColor(unpack(FFATheme.closeBtn))
     end
 
-    -- Start on Spotify by default
+    -- Default to Spotify on open
     if self.webView ~= nil then
         self.webView:setUrl("https://open.spotify.com/")
     end
+
+    print("FFA Media Player initialized successfully!")
 end
 
--- Toggle visibility of the media window
 function MediaWindow:toggle()
     self.isVisible = not self.isVisible
-    if self.window ~= nil then
-        self.window:setVisible(self.isVisible)
-    end
+    self:setVisible(self.isVisible)
 end
 
--- Explicitly set visibility
 function MediaWindow:setVisible(state)
     self.isVisible = state
     if self.window ~= nil then
@@ -79,12 +90,15 @@ function MediaWindow:setVisible(state)
     end
 end
 
--- Initialize media window when game loads
-MediaWindow:init()
-
--- Optional: bind to a key (example: F9)
-function onKeyDown(key)
-    if key == Input.KEY_F9 then
-        MediaWindow:toggle()
+-- Key binding (F9 by default)
+function MediaWindow:keyEvent(unicode, key, down, shift, ctrl, alt)
+    if down and key == Input.KEY_F9 then
+        self:toggle()
     end
 end
+
+-- Initialize when the mod is loaded
+MediaWindow:init()
+
+-- Register the key event (better than global onKeyDown)
+g_inputBinding:registerActionEvent(InputAction.MENU, MediaWindow, MediaWindow.keyEvent, false, true, false, true)
