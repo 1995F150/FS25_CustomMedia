@@ -1,23 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Screen name="CustomMediaPlayer" controller="CustomMediaPlayerController">
-    <!-- Main overlay frame -->
-    <Frame name="MainFrame" width="400" height="120" x="50" y="50" color="#FF1A1A1A" alpha="0.85" cornerRadius="8">
-        
-        <!-- Title bar -->
-        <Frame name="TitleBar" width="100%" height="30" color="#FF0055FF" cornerRadius="6,6,0,0">
-            <Text name="TitleText" text="Media Player" fontSize="16" color="#FFFFFFFF" align="center"/>
+<Screen name="CustomMediaPlayer" controller="MediaWindow">
+
+    <!-- Main Window -->
+    <Frame name="MainFrame" 
+           width="860" 
+           height="640" 
+           x="center" 
+           y="center" 
+           alpha="0.98" 
+           cornerRadius="12">
+
+        <!-- Background for theme control -->
+        <Frame name="MediaBackground" 
+               width="100%" 
+               height="100%" 
+               color="#1A1A1C" 
+               cornerRadius="12"/>
+
+        <!-- Draggable Title Bar -->
+        <Frame name="TitleBar" 
+               width="100%" 
+               height="48" 
+               y="0" 
+               color="#0F0F12" 
+               cornerRadius="12,12,0,0"
+               canBeDragged="true">   <!-- Enables dragging -->
+
+            <Text name="TitleText" 
+                  text="FFA Media Player" 
+                  fontSize="19" 
+                  color="#FFFFFF" 
+                  x="25" 
+                  y="13" 
+                  bold="true"/>
+
+            <!-- Minimize Button -->
+            <Button name="MinimizeButton" 
+                    text="−" 
+                    width="42" 
+                    height="42" 
+                    x="760" 
+                    y="3" 
+                    fontSize="26" 
+                    textAlign="center"
+                    color="#FFCC77"/>
+
+            <!-- Close Button -->
+            <Button name="CloseButton" 
+                    text="✕" 
+                    width="42" 
+                    height="42" 
+                    x="810" 
+                    y="3" 
+                    fontSize="24" 
+                    textAlign="center"
+                    color="#FF5555"/>
         </Frame>
 
-        <!-- Song info -->
-        <Text name="SongTitle" text="Song Title" fontSize="14" color="#FFFFFFFF" x="10" y="40" width="380" align="left"/>
-        <Text name="ArtistName" text="Artist Name" fontSize="12" color="#FFAAAAAA" x="10" y="60" width="380" align="left"/>
+        <!-- Button Bar -->
+        <Frame name="ButtonBar" 
+               width="100%" 
+               height="65" 
+               y="48" 
+               color="#131317">
 
-        <!-- Album art / media icon -->
-        <Image name="MediaIcon" file="spotify.png" x="340" y="40" width="50" height="50"/>
+            <Button name="SpotifyButton" 
+                    text="Spotify" 
+                    width="190" 
+                    height="48" 
+                    x="30" 
+                    y="8" 
+                    fontSize="17" 
+                    bold="true"/>
 
-        <!-- Buttons -->
-        <Button name="CloseButton" text="X" x="370" y="0" width="30" height="30" color="#FFFF5555" fontSize="14"/>
-        <Button name="MinimizeButton" text="—" x="340" y="0" width="30" height="30" color="#FFFFFF55" fontSize="14"/>
-        
+            <Button name="CriderGPTButton" 
+                    text="CriderGPT" 
+                    width="190" 
+                    height="48" 
+                    x="235" 
+                    y="8" 
+                    fontSize="17" 
+                    bold="true"/>
+        </Frame>
+
+        <!-- Main WebView -->
+        <WebView name="MediaWebView" 
+                 width="810" 
+                 height="480" 
+                 x="25" 
+                 y="125" 
+                 backgroundColor="#0F0F11"/>
+
+        <!-- Footer Status -->
+        <Text name="StatusText" 
+              text="F9 to toggle • Drag title bar to move • Spotify &amp; CriderGPT" 
+              fontSize="13" 
+              color="#777777" 
+              x="25" 
+              y="615" 
+              width="810" 
+              align="center"/>
+
     </Frame>
+
 </Screen>
